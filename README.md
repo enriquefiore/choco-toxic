@@ -1,4 +1,4 @@
-# chocotoxic
+# Choco Toxic
 
 Calcule a toxicidade do chocolate ingerido pelo cachorro.
 
