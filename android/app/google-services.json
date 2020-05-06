@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "892579726651",
+    "firebase_url": "https://choco-toxic.firebaseio.com",
+    "project_id": "choco-toxic",
+    "storage_bucket": "choco-toxic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892579726651:android:9b634d3ac0e23b5e3ca31e",
+        "android_client_info": {
+          "package_name": "com.fioredigital.chocotoxic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "892579726651-piplua48u48vtr093b66jptsskmugn5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3s60rCh45MTXojTdkW46XTFPJst5hUbM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "892579726651-piplua48u48vtr093b66jptsskmugn5i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
