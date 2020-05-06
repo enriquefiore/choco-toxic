@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:892579726651:android:9b634d3ac0e23b5e3ca31e",
+        "mobilesdk_app_id": "1:892579726651:android:59ba347333f95d0d3ca31e",
         "android_client_info": {
-          "package_name": "com.fioredigital.chocotoxic"
+          "package_name": "app.fiore.chocotoxic"
         }
       },
       "oauth_client": [
