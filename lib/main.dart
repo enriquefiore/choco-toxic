@@ -25,17 +25,66 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-String ddChocolateValue = "Ao leite";
-
 class _MyHomePageState extends State<MyHomePage> {
-  double _txtCWeight = 0.0;
-  double _txtAWeight = 0.0;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  var pesoChoController = TextEditingController();
+  var pesoDogController = TextEditingController();
+  String ddChocolateValue = "Ao leite";
+  String _resultadoCalculadora = "";
+  String _resultadoMensagem = "";
+  Color _resultadoCor = Colors.white;
+  Color _resultadoCorFonte = Colors.white;
 
   void _resetForm() {
     setState(() {
       ddChocolateValue = "Ao leite";
-      _txtCWeight = 0;
-      _txtAWeight = 0;
+      pesoChoController.text = "";
+      pesoDogController.text = "";
+      _resultadoCalculadora = "";
+      _resultadoMensagem = "";
+      _resultadoCor = Colors.white;
+      _resultadoCorFonte = Colors.white;
+    });
+  }
+
+  void calcular(){
+    setState(() {
+      double chocolate = double.parse(pesoChoController.text);
+      double cachorro = double.parse(pesoDogController.text);
+      double metilxantina = 0;
+      double resultado = 0;
+
+      switch(ddChocolateValue){
+        case "Branco":
+          metilxantina = 0.0035;
+          break; 
+        case "Ao leite":
+          metilxantina = 2.2575;
+          break;
+        case "Achocolatado":
+          metilxantina = 5.3264;
+          break;
+        case "Meio amargo":
+          metilxantina = 5.6438;
+          break;
+        case "Amargo":
+          metilxantina = 15.3442;
+          break;
+        case "Cacau em pó":
+          metilxantina = 28.4661;
+          break;
+      }
+
+      if(!cachorro.isNaN && !chocolate.isNaN) {
+        resultado = (metilxantina * chocolate) / cachorro;
+        resultado.toStringAsFixed(5);
+        _resultadoCalculadora = "$resultado mg/kg";
+        _resultadoCor = resultado < 20 ? Colors.teal : resultado < 40 ? Colors.yellow : resultado < 60 ? Colors.orange : Colors.red;
+        _resultadoCorFonte = resultado < 20  || resultado >= 60 ? Colors.white : Colors.grey;  
+        _resultadoMensagem = resultado < 20 ? "Sem perigo." : resultado < 40 ? "Atenção!" : resultado < 60 ? "Perigo!" : "Risco de morte!";
+      } else
+        _resultadoCalculadora = "";
     });
   }
 
@@ -45,127 +94,144 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Tipo de chocolate: "),
-                DropdownButton<String>(
-                  value: ddChocolateValue,
-                  icon: Icon(Icons.expand_more),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: TextStyle(
-                    color: Colors.black
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 100,
+              ),
+              Focus(
+                child: DropdownButtonFormField(
+                  decoration: InputDecoration(
+                      labelText: "Tipo do chocolate",
+                      labelStyle: TextStyle(
+                          color: Colors.teal
+                      )
                   ),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.teal,
-                  ),
-                  onChanged: (String newValue){
-                    setState((){
-                      ddChocolateValue = newValue;
-                    });
-                  },
-                  items: <String>['Ao leite','Meio amargo','Amargo','Branco']
+                  items: <String>['Ao leite','Meio amargo','Amargo','Achocolatado','Cacau em pó','Branco']
                   .map<DropdownMenuItem<String>>((String value1){
                     return DropdownMenuItem<String>(
                       value: value1,
                       child: Text(value1),
                     );
-                  })
-                  .toList(),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: 150.0,
-                  child: Text(
-                    "Quantidade ingerida: ", 
-                    textAlign: TextAlign.end,
+                  }).toList(),
+                  style:TextStyle(
+                    color: Colors.brown[900],
+                    fontSize: 20.0,
                   ),
+                  onChanged: (String newValue){
+                    setState((){
+                      ddChocolateValue = newValue;
+                      calcular();
+                    });
+                  }
                 ),
-                SizedBox(
-                  width: 50.0,
-                  child: TextField(
-                    keyboardType: TextInputType.numberWithOptions(
-                      decimal: true,
-                      signed: false
+                onFocusChange: (hasFocus){
+                  if(!hasFocus)
+                    calcular();
+                },
+              ),
+              Focus(
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      labelText: "Peso do chocolate (g)",
+                      labelStyle: TextStyle(
+                          color: Colors.teal
+                      )
+                  ),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.brown[900],
+                    fontSize: 20.0,
+                  ),
+                  controller: pesoChoController,
+                  validator: (value) {
+                    if(value.isEmpty)
+                      return "Insira o peso em gramas";
+                    else
+                      calcular();
+                  },
+                ),
+                onFocusChange: (hasFocus){
+                  if(!hasFocus)
+                    calcular();
+                },
+              ),
+              Focus(
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      labelText: "Peso do cachorro (kg)",
+                      labelStyle: TextStyle(
+                          color: Colors.teal
+                      )
+                  ),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                  ),
+                  controller: pesoDogController,
+                  validator: (value) {
+                    if(value.isEmpty)
+                      return "Insira o peso em kilogramas";
+                    else
+                      calcular();
+                  },
+                ),
+                onFocusChange: (hasFocus){
+                  if(!hasFocus)
+                    calcular();
+                },
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Container(
+                color: _resultadoCor,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 80,
                     ),
-                    textAlign: TextAlign.end,
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.teal),
+                    Text(
+                      _resultadoMensagem,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: _resultadoCorFonte,
+                          fontSize: 40.0
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.teal)
-                      ),
-                      border: InputBorder.none,
-                      hintText: ''
                     ),
-                  ),
+                  ],
                 ),
-                SizedBox(
-                  width: 20.0,
-                  child: Text(
-                    "g", 
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: 150.0,
-                  child: Text(
-                    "Peso do cão: ", 
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-                SizedBox(
-                  width: 50.0,
-                  child: TextField(
-                    keyboardType: TextInputType.numberWithOptions(
-                      decimal: true,
-                      signed: false
+              ),
+              Container(
+                color: _resultadoCor,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 80,
                     ),
-                    textAlign: TextAlign.end,
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.teal),
+                    Text(
+                      _resultadoCalculadora,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: _resultadoCorFonte,
+                          fontSize: 20.0
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.teal)
-                      ),
-                      border: InputBorder.none,
-                      hintText: ''
                     ),
-                    
-                  ),
+                  ],
                 ),
-                SizedBox(
-                  width: 20.0,
-                  child: Text(
-                    "kg", 
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

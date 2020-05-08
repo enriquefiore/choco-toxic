@@ -1,6 +1,6 @@
 name: chocotoxic
 description: Calcule a toxicidade do chocolate ingerido pelo cachorro.
-version: 1.0.0+1
+version: 1.0.1+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
