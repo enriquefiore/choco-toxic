@@ -1,0 +1,24 @@
+Backlog:
+- layout
+- rotas dinâmicas
+- transicoes
+- splashscreen
+- histórico - persistência em sqlite
+- about
+________________________________________________
+
+Changelog v0.1.0:
+- menu drawer;
+- troca de páginas;
+- layout do histórico
+- inclusão do botão para calcular;
+- ajustar cores de fundo app e resultado;
+
+Changelog v0.0.2:
+- ajustar atualizacao do resultado sem a necessidade de um botão;
+- ajustar cores de fundo app e resultado;
+- remover linha branca no resultado;
+
+Changelog v0.0.1:
+- calculos funcionando ao alterar os campos;
+- mensagem e cor diferente para cada cenário;
