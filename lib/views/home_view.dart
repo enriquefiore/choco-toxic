@@ -67,7 +67,7 @@ class _HomeViewState extends State<HomeView> {
         _resultadoCalculadora = "$resultado mg/kg";
         _resultadoCor = resultado < 20 ? Colors.teal : resultado < 40 ? Colors.yellow : resultado < 60 ? Colors.orange : Colors.red;
         _resultadoCorFonte = resultado < 20  || resultado >= 60 ? Colors.white : Colors.black;  
-        _resultadoMensagem = resultado < 20 ? "Sem perigo." : resultado < 40 ? "Atenção!" : resultado < 60 ? "Perigo!" : "Risco de morte!";
+        _resultadoMensagem = resultado < 20 ? 'Baixo risco' : resultado < 40 ? 'Médio risco' : resultado < 60 ? 'Alto risco' : 'Risco de morte';
       } else
         _resultadoCalculadora = "";
     });
@@ -89,6 +89,33 @@ class _HomeViewState extends State<HomeView> {
             children: <Widget>[
               SizedBox(
                 height: 100,
+              ),
+              Focus(
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      labelText: "Peso do cão (kg)",
+                      labelStyle: TextStyle(
+                          color: Colors.teal
+                      )
+                  ),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                  ),
+                  controller: pesoDogController,
+                  validator: (value) {
+                    if(value.isEmpty)
+                      return "Insira o peso em kilogramas";
+                    /* else
+                      calcular(); */
+                  },
+                ),
+                /* onFocusChange: (hasFocus){
+                  if(!hasFocus)
+                    calcular();
+                }, */
               ),
               Focus(
                 child: DropdownButtonFormField(
@@ -139,33 +166,6 @@ class _HomeViewState extends State<HomeView> {
                   validator: (value) {
                     if(value.isEmpty)
                       return "Insira o peso em gramas";
-                    /* else
-                      calcular(); */
-                  },
-                ),
-                /* onFocusChange: (hasFocus){
-                  if(!hasFocus)
-                    calcular();
-                }, */
-              ),
-              Focus(
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      labelText: "Peso do cão (kg)",
-                      labelStyle: TextStyle(
-                          color: Colors.teal
-                      )
-                  ),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                  ),
-                  controller: pesoDogController,
-                  validator: (value) {
-                    if(value.isEmpty)
-                      return "Insira o peso em kilogramas";
                     /* else
                       calcular(); */
                   },
