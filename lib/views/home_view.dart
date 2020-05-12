@@ -34,8 +34,8 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  BorderRadiusGeometry toggleBorder(bool force){
-    return _resultadoMensagem != '' || force ? BorderRadius.only(
+  BorderRadiusGeometry toggleBorder(){
+    return _resultadoMensagem != '' ? BorderRadius.only(
       bottomLeft: Radius.circular(10),
       bottomRight: Radius.circular(10),
       topLeft: Radius.circular(10),
@@ -43,13 +43,22 @@ class _HomeViewState extends State<HomeView> {
     ) : BorderRadius.zero;
   }
 
-  BoxShadow toggleShadow(bool force){
-    return _resultadoMensagem != '' || force ? BoxShadow(
+  BoxShadow toggleShadow(){
+    return _resultadoMensagem != ''? BoxShadow(
       color: Colors.grey.withOpacity(0.5),
       spreadRadius: 5,
       blurRadius: 7,
       offset: Offset(0, 3),
     ) : BoxShadow(color:Colors.grey[50]);
+  }
+
+  BoxShadow toggleBtnShadow(){
+    return BoxShadow(
+      color: Colors.grey.withOpacity(0.5),
+      spreadRadius: 3,
+      blurRadius: 10,
+      offset: Offset(0, 3),
+    );
   }
 
   void calcular(){
@@ -126,14 +135,8 @@ class _HomeViewState extends State<HomeView> {
                   validator: (value) {
                     if(value.isEmpty)
                       return "Insira o peso em kilogramas";
-                    /* else
-                      calcular(); */
                   },
                 ),
-                /* onFocusChange: (hasFocus){
-                  if(!hasFocus)
-                    calcular();
-                }, */
               ),
               Focus(
                 child: DropdownButtonFormField(
@@ -158,14 +161,9 @@ class _HomeViewState extends State<HomeView> {
                   onChanged: (String newValue){
                     setState((){
                       ddChocolateValue = newValue;
-                      /* calcular(); */
                     });
                   }
                 ),
-                /* onFocusChange: (hasFocus){
-                  if(!hasFocus)
-                    calcular();
-                }, */
               ),
               Focus(
                 child: TextFormField(
@@ -198,8 +196,7 @@ class _HomeViewState extends State<HomeView> {
                 padding: const EdgeInsets.all(50.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: toggleBorder(true),
-                    boxShadow: [ toggleShadow(true) ],
+                    boxShadow: [ toggleBtnShadow() ],
                   ),
                   child: MaterialButton(
                     shape: RoundedRectangleBorder(
@@ -224,8 +221,8 @@ class _HomeViewState extends State<HomeView> {
               Container(
                 decoration: BoxDecoration(
                   color: _resultadoCor,
-                  borderRadius: toggleBorder(false),
-                  boxShadow: [ toggleShadow(false) ],
+                  borderRadius: toggleBorder(),
+                  boxShadow: [ toggleShadow() ],
                 ),
                 child: Column(
                   children: <Widget>[
