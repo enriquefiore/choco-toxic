@@ -24,7 +24,7 @@ class _HomeViewState extends State<HomeView> {
 
   void _resetForm() {
     setState(() {
-      ddChocolateValue = "";
+      ddChocolateValue = "Ao leite";
       pesoChoController.text = "";
       pesoDogController.text = "";
       _resultadoCalculadora = "";
@@ -63,6 +63,8 @@ class _HomeViewState extends State<HomeView> {
 
   void calcular(){
     setState(() {
+      FocusScope.of(context).requestFocus(FocusNode());
+
       double chocolate = double.tryParse(pesoChoController.text);
       double cachorro = double.tryParse(pesoDogController.text);
       double metilxantina = 0;
@@ -115,7 +117,7 @@ class _HomeViewState extends State<HomeView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               SizedBox(
-                height: 100,
+                height: 70,
               ),
               Focus(
                 child: TextFormField(
