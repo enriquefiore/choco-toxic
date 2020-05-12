@@ -1,3 +1,4 @@
+import 'package:chocotoxic/views/references_view.dart';
 import 'package:flutter/material.dart';
 import 'package:chocotoxic/views/about_view.dart';
 import 'package:chocotoxic/views/history_view.dart';
@@ -12,12 +13,13 @@ class ChocoToxicApp extends StatelessWidget {
     return MaterialApp(
       title: 'Choco Toxic',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: Colors.brown,
       ),
       debugShowCheckedModeBanner: false,
       home: HomeView(title: 'Choco Toxic'),
       routes: <String, WidgetBuilder> {
         '/history': (BuildContext context) => HistoryView(),
+        '/references': (BuildContext context) => ReferencesView(),
         '/about': (BuildContext context) => AboutView(),
       }
     );

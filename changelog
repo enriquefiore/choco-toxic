@@ -11,6 +11,12 @@ ____________________________________
 
 Changelog: 
 
+v0.1.2:
+- ajuste de cores;
+- ajuste no tamanho da fonte na calculadora;
+- adicionar pagina de referencias bibliograficas;
+- ajustar resultado para 2 casas decimais
+
 v0.1.1:
 - reordenar campos da calculadora;
 - ajustar textos dos resultados;

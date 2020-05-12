@@ -12,7 +12,7 @@ class MenuView extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.teal,
+              color: Colors.brown,
             ),
             child: Text(
               'Choco Toxic',
@@ -26,7 +26,6 @@ class MenuView extends StatelessWidget {
             leading: Icon(Icons.pets),
             title: Text('Calculadora'),
             onTap: () {
-              //return HomeView(title: 'Choco Toxic');
               _getDrawerItem(context, 0);
             },
           ),
@@ -38,10 +37,17 @@ class MenuView extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: Icon(Icons.book),
+            title: Text('Referências Bibliográficas'),
+            onTap: () {
+              _getDrawerItem(context, 2);
+            },
+          ),
+          ListTile(
             leading: Icon(Icons.fingerprint),
             title: Text('Sobre'),
             onTap: () {
-              _getDrawerItem(context, 2);
+              _getDrawerItem(context, 3);
             },
           ),
         ],
@@ -56,6 +62,9 @@ class MenuView extends StatelessWidget {
         Navigator.pushReplacementNamed(ctx, Routes.history);
         break;
       case 2:
+        Navigator.pushReplacementNamed(ctx, Routes.references);      
+        break;
+      case 3:
         Navigator.pushReplacementNamed(ctx, Routes.about);      
         break;
       default:

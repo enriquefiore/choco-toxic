@@ -10,7 +10,7 @@ class HistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Choco Toxic - Histórico'),
+        title: Text('Histórico'),
       ),
       drawer: MenuView(),
       body: DataTable(

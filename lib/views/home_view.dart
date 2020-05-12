@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:chocotoxic/views/menu_view.dart';
 
@@ -23,7 +24,7 @@ class _HomeViewState extends State<HomeView> {
 
   void _resetForm() {
     setState(() {
-      ddChocolateValue = "Ao leite";
+      ddChocolateValue = "";
       pesoChoController.text = "";
       pesoDogController.text = "";
       _resultadoCalculadora = "";
@@ -31,6 +32,24 @@ class _HomeViewState extends State<HomeView> {
       _resultadoCor = Colors.grey[50];
       _resultadoCorFonte = Colors.white;
     });
+  }
+
+  BorderRadiusGeometry toggleBorder(bool force){
+    return _resultadoMensagem != '' || force ? BorderRadius.only(
+      bottomLeft: Radius.circular(10),
+      bottomRight: Radius.circular(10),
+      topLeft: Radius.circular(10),
+      topRight: Radius.circular(10)
+    ) : BorderRadius.zero;
+  }
+
+  BoxShadow toggleShadow(bool force){
+    return _resultadoMensagem != '' || force ? BoxShadow(
+      color: Colors.grey.withOpacity(0.5),
+      spreadRadius: 5,
+      blurRadius: 7,
+      offset: Offset(0, 3),
+    ) : BoxShadow(color:Colors.grey[50]);
   }
 
   void calcular(){
@@ -63,8 +82,7 @@ class _HomeViewState extends State<HomeView> {
 
       if(cachorro != null && chocolate != null) {
         resultado = (metilxantina * chocolate) / cachorro;
-        resultado.toStringAsFixed(5);
-        _resultadoCalculadora = "$resultado mg/kg";
+        _resultadoCalculadora = "${resultado.toStringAsFixed(2)} mg/kg";
         _resultadoCor = resultado < 20 ? Colors.teal : resultado < 40 ? Colors.yellow : resultado < 60 ? Colors.orange : Colors.red;
         _resultadoCorFonte = resultado < 20  || resultado >= 60 ? Colors.white : Colors.black;  
         _resultadoMensagem = resultado < 20 ? 'Baixo risco' : resultado < 40 ? 'Médio risco' : resultado < 60 ? 'Alto risco' : 'Risco de morte';
@@ -96,12 +114,12 @@ class _HomeViewState extends State<HomeView> {
                   decoration: InputDecoration(
                       labelText: "Peso do cão (kg)",
                       labelStyle: TextStyle(
-                          color: Colors.teal
+                          color: Colors.brown,                          
                       )
                   ),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.brown,
                     fontSize: 20.0,
                   ),
                   controller: pesoDogController,
@@ -122,7 +140,8 @@ class _HomeViewState extends State<HomeView> {
                   decoration: InputDecoration(
                       labelText: "Tipo de chocolate",
                       labelStyle: TextStyle(
-                          color: Colors.teal
+                          color: Colors.brown,
+                          fontSize: 20.0
                       )
                   ),
                   items: <String>['Ao leite','Meio amargo','Amargo','Achocolatado','Cacau em pó','Branco']
@@ -133,7 +152,7 @@ class _HomeViewState extends State<HomeView> {
                     );
                   }).toList(),
                   style:TextStyle(
-                    color: Colors.brown[900],
+                    color: Colors.brown,
                     fontSize: 20.0,
                   ),
                   onChanged: (String newValue){
@@ -154,12 +173,12 @@ class _HomeViewState extends State<HomeView> {
                   decoration: InputDecoration(
                       labelText: "Quantidade de chocolate (g)",
                       labelStyle: TextStyle(
-                          color: Colors.teal
+                          color: Colors.brown
                       )
                   ),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.brown[900],
+                    color: Colors.brown,
                     fontSize: 20.0,
                   ),
                   controller: pesoChoController,
@@ -175,30 +194,39 @@ class _HomeViewState extends State<HomeView> {
                     calcular();
                 }, */
               ),
-              SizedBox(
-                height: 35,
-              ),
-              MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: toggleBorder(true),
+                    boxShadow: [ toggleShadow(true) ],
+                  ),
+                  child: MaterialButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    color: Colors.teal,
+                    child: Text(
+                      'CALCULAR',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.grey[50],
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold
+                      ), 
+                    ),
+                    onPressed: (){
+                      calcular();
+                    },
+                  ),
                 ),
-                color: Colors.teal,
-                child: Text(
-                  'CALCULAR',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey[50]
-                  ), 
-                ),
-                onPressed: (){
-                  calcular();
-                },
-              ),
-              SizedBox(
-                height: 35,
               ),
               Container(
-                color: _resultadoCor,
+                decoration: BoxDecoration(
+                  color: _resultadoCor,
+                  borderRadius: toggleBorder(false),
+                  boxShadow: [ toggleShadow(false) ],
+                ),
                 child: Column(
                   children: <Widget>[
                     SizedBox(
@@ -229,6 +257,9 @@ class _HomeViewState extends State<HomeView> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 50,
+              ),
             ],
           ),
         ),
@@ -237,8 +268,12 @@ class _HomeViewState extends State<HomeView> {
         onPressed: _resetForm,
         autofocus: ddChocolateValue.contains('leite'),
         tooltip: 'Recomeçar',
-        child: Icon(Icons.delete),
-        backgroundColor: Colors.red,
+        child: Transform(
+          alignment: Alignment.center,
+          child: Icon(Icons.refresh),
+          transform: Matrix4.rotationY(math.pi),
+        ),
+        backgroundColor: Colors.brown,
       ),
     );
   }
