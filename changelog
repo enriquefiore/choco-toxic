@@ -11,6 +11,10 @@ ____________________________________
 
 Changelog: 
 
+v0.2.0:
+- rotas dinâmicas
+- página de detalhes/recomendações
+
 v0.1.2:
 - ajuste de cores;
 - ajuste no tamanho da fonte na calculadora;

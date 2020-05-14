@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:chocotoxic/views/details_view.dart';
 import 'package:chocotoxic/views/menu_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -44,7 +45,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   BoxShadow toggleShadow(){
-    return _resultadoMensagem != ''? BoxShadow(
+    return _resultadoMensagem != '' ? BoxShadow(
       color: Colors.grey.withOpacity(0.5),
       spreadRadius: 5,
       blurRadius: 7,
@@ -59,6 +60,27 @@ class _HomeViewState extends State<HomeView> {
       blurRadius: 10,
       offset: Offset(0, 3),
     );
+  }
+
+  FlatButton toggleSaibaMais(){
+    return _resultadoMensagem != '' ?  FlatButton(
+      onPressed: () => Navigator.push(
+        context, 
+        MaterialPageRoute(
+          builder: (_) => DetailsView(resultado: _resultadoMensagem)
+        )
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.info_outline),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Saiba mais'),
+          )
+        ],
+      )
+    ) : null;
   }
 
   void calcular(){
@@ -117,7 +139,7 @@ class _HomeViewState extends State<HomeView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               SizedBox(
-                height: 70,
+                height: 60,
               ),
               Focus(
                 child: TextFormField(
@@ -185,14 +207,8 @@ class _HomeViewState extends State<HomeView> {
                   validator: (value) {
                     if(value.isEmpty)
                       return "Insira o peso em gramas";
-                    /* else
-                      calcular(); */
                   },
                 ),
-                /* onFocusChange: (hasFocus){
-                  if(!hasFocus)
-                    calcular();
-                }, */
               ),
               Padding(
                 padding: const EdgeInsets.all(50.0),
@@ -257,8 +273,12 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
               SizedBox(
-                height: 50,
+                height: 20,
               ),
+              Container(
+                child: toggleSaibaMais(),
+              )
+              
             ],
           ),
         ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:chocotoxic/routes/routes.dart';
+import 'package:chocotoxic/views/about_view.dart';
+import 'package:chocotoxic/views/history_view.dart';
+import 'package:chocotoxic/views/home_view.dart';
+import 'package:chocotoxic/views/references_view.dart';
 
 class MenuView extends StatelessWidget {
   MenuView({Key key}) : super(key: key);
@@ -55,28 +58,20 @@ class MenuView extends StatelessWidget {
     );
   }
 
-
   _getDrawerItem(BuildContext ctx, int id){
     switch(id){
       case 1:
-        Navigator.pushReplacementNamed(ctx, Routes.history);
+        Navigator.push(ctx,MaterialPageRoute(builder: (_) => HistoryView()));
         break;
       case 2:
-        Navigator.pushReplacementNamed(ctx, Routes.references);      
+        Navigator.push(ctx,MaterialPageRoute(builder: (_) => ReferencesView()));    
         break;
       case 3:
-        Navigator.pushReplacementNamed(ctx, Routes.about);      
+        Navigator.push(ctx,MaterialPageRoute(builder: (_) => AboutView()));          
         break;
       default:
-        Navigator.pushReplacementNamed(ctx, Routes.home);
+        Navigator.push(ctx,MaterialPageRoute(builder: (_) => HomeView(title: 'Choco Toxic')));
         break;
     }
   }
-
-
-    /* Scaffold.of(ctx).showSnackBar(
-      SnackBar(
-        content: Text('$id Coca-cola'),
-      ),
-    ); */
 }

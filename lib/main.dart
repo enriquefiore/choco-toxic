@@ -1,8 +1,8 @@
-import 'package:chocotoxic/views/references_view.dart';
 import 'package:flutter/material.dart';
+import 'package:chocotoxic/views/home_view.dart';
 import 'package:chocotoxic/views/about_view.dart';
 import 'package:chocotoxic/views/history_view.dart';
-import 'package:chocotoxic/views/home_view.dart';
+import 'package:chocotoxic/views/references_view.dart';
 
 void main() => runApp(ChocoToxicApp());
 
