@@ -1,12 +1,12 @@
 Backlog:
 
 - layout
-- rotas dinâmicas
 - transicoes
 - splashscreen
 - histórico - persistência em sqlite
-- sobre
-- adicionar recomendações aos resultado
+- texto sobre
+- texto recomendações
+- texto referências bibliograficas
 ____________________________________
 
 Changelog: 
