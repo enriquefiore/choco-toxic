@@ -5,11 +5,16 @@ Backlog:
 - splashscreen
 - histórico - persistência em sqlite
 - texto sobre
-- texto recomendações
+- texto recomendações (falta o texto para risco de morte)
 - texto referências bibliograficas
 ____________________________________
 
 Changelog: 
+
+v0.2.1:
+- trocar *.png por *.jpg
+- texto recomendações
+- ajuste na página de detalhes/recomendações
 
 v0.2.0:
 - rotas dinâmicas

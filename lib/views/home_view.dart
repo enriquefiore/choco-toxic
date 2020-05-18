@@ -12,31 +12,32 @@ class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
+class Resultado{
+  double resultado = 0;
+  String ddChocolateValue = "Ao leite";
+  String resultadoCalculadora = "";
+  String resultadoMensagem = "";
+  Color resultadoCor = Colors.grey[50];
+  Color resultadoCorFonte = Colors.white;
+}
+
 class _HomeViewState extends State<HomeView> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   var pesoChoController = TextEditingController();
   var pesoDogController = TextEditingController();
-  String ddChocolateValue = "Ao leite";
-  String _resultadoCalculadora = "";
-  String _resultadoMensagem = "";
-  Color _resultadoCor = Colors.grey[50];
-  Color _resultadoCorFonte = Colors.white;
+  Resultado result = Resultado();
 
   void _resetForm() {
     setState(() {
-      ddChocolateValue = "Ao leite";
+      result = Resultado();
       pesoChoController.text = "";
       pesoDogController.text = "";
-      _resultadoCalculadora = "";
-      _resultadoMensagem = "";
-      _resultadoCor = Colors.grey[50];
-      _resultadoCorFonte = Colors.white;
     });
   }
 
   BorderRadiusGeometry toggleBorder(){
-    return _resultadoMensagem != '' ? BorderRadius.only(
+    return result.resultadoMensagem != '' ? BorderRadius.only(
       bottomLeft: Radius.circular(10),
       bottomRight: Radius.circular(10),
       topLeft: Radius.circular(10),
@@ -45,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   BoxShadow toggleShadow(){
-    return _resultadoMensagem != '' ? BoxShadow(
+    return result.resultadoMensagem != '' ? BoxShadow(
       color: Colors.grey.withOpacity(0.5),
       spreadRadius: 5,
       blurRadius: 7,
@@ -63,11 +64,11 @@ class _HomeViewState extends State<HomeView> {
   }
 
   FlatButton toggleSaibaMais(){
-    return _resultadoMensagem != '' ?  FlatButton(
+    return result.resultadoMensagem != '' ?  FlatButton(
       onPressed: () => Navigator.push(
         context, 
         MaterialPageRoute(
-          builder: (_) => DetailsView(resultado: _resultadoMensagem)
+          builder: (_) => DetailsView(input: result)
         )
       ),
       child: Row(
@@ -86,13 +87,11 @@ class _HomeViewState extends State<HomeView> {
   void calcular(){
     setState(() {
       FocusScope.of(context).requestFocus(FocusNode());
-
       double chocolate = double.tryParse(pesoChoController.text);
       double cachorro = double.tryParse(pesoDogController.text);
       double metilxantina = 0;
-      double resultado = 0;
-
-      switch(ddChocolateValue){
+      
+      switch(result.ddChocolateValue){
         case "Branco":
           metilxantina = 0.0035;
           break; 
@@ -114,13 +113,14 @@ class _HomeViewState extends State<HomeView> {
       }
 
       if(cachorro != null && chocolate != null) {
-        resultado = (metilxantina * chocolate) / cachorro;
-        _resultadoCalculadora = "${resultado.toStringAsFixed(2)} mg/kg";
-        _resultadoCor = resultado < 20 ? Colors.teal : resultado < 40 ? Colors.yellow : resultado < 60 ? Colors.orange : Colors.red;
-        _resultadoCorFonte = resultado < 20  || resultado >= 60 ? Colors.white : Colors.black;  
-        _resultadoMensagem = resultado < 20 ? 'Baixo risco' : resultado < 40 ? 'Médio risco' : resultado < 60 ? 'Alto risco' : 'Risco de morte';
+        var resultado = (metilxantina * chocolate) / cachorro;
+        result.resultadoCalculadora = "${resultado.toStringAsFixed(2)} mg/kg";
+        result.resultadoCor = resultado < 20 ? Colors.teal : resultado < 40 ? Colors.yellow : resultado < 60 ? Colors.orange : Colors.red;
+        result.resultadoCorFonte = resultado < 20  || resultado >= 60 ? Colors.white : Colors.black;  
+        result.resultadoMensagem = resultado < 20 ? 'Baixo risco' : resultado < 40 ? 'Médio risco' : resultado < 60 ? 'Alto risco' : 'Risco de morte';
+        result.resultado = resultado;
       } else
-        _resultadoCalculadora = "";
+        result.resultadoCalculadora = "";
     });
   }
 
@@ -184,7 +184,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   onChanged: (String newValue){
                     setState((){
-                      ddChocolateValue = newValue;
+                      result.ddChocolateValue = newValue;
                     });
                   }
                 ),
@@ -238,7 +238,7 @@ class _HomeViewState extends State<HomeView> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: _resultadoCor,
+                  color: result.resultadoCor,
                   borderRadius: toggleBorder(),
                   boxShadow: [ toggleShadow() ],
                 ),
@@ -248,10 +248,10 @@ class _HomeViewState extends State<HomeView> {
                       height: 20,
                     ),
                     Text(
-                      _resultadoMensagem,
+                      result.resultadoMensagem,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: _resultadoCorFonte,
+                          color: result.resultadoCorFonte,
                           fontSize: 40.0
                       ),
                     ),
@@ -259,10 +259,10 @@ class _HomeViewState extends State<HomeView> {
                       height: 20,
                     ),
                     Text(
-                      _resultadoCalculadora,
+                      result.resultadoCalculadora,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: _resultadoCorFonte,
+                          color: result.resultadoCorFonte,
                           fontSize: 20.0
                       ),
                     ),
@@ -285,7 +285,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _resetForm,
-        autofocus: ddChocolateValue.contains('leite'),
+        autofocus: result.ddChocolateValue.contains('leite'),
         tooltip: 'Recomeçar',
         child: Transform(
           alignment: Alignment.center,
